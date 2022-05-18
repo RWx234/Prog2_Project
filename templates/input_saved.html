@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Input gespeichert</title>
+</head>
+<body>
+{% extends 'base.html' %}
+
+{% block content %}
+
+<p>Danke für deine Eingabe, {{ user_input["name"] }}. <br><br>
+Du hast folgende Eingaben gemacht: <br>
+Alter: {{ user_input["age"] }}<br>
+Gewicht: {{ user_input["weight"] }} kg<br>
+Geschlecht: {% if user_input["gender"] == "male" %}Männlich
+{% elif user_input["gender"] == "female" %} Weiblich
+{% else %}Anderes Geschlecht (Achtung: Da das Geschlecht in der BAK-Berechnung eine Rolle spielt, werden deine Resultate nicht gleich genau sein.
+{% endif %}<br>
+Trinkzeit: {{ user_input["time"] }} Uhr<br>
+Konsumierter Alkohol: {{ user_input["drink"] }}<br>
+Volumenprozent von {{ user_input["drink"] }}: {{ user_input["percent"] }}%<br>
+Konsumierte Menge {{ user_input["drink"] }}: {{ user_input["vol"] }} Milliliter</p>
+<br><br>
+<h5>Das ergibt eine Erhöhung der Blutalkoholkonzentration um {{ user_input["bak"]|round(2) }} Promille.<br>
+Du hast mit diesem Getränk {{ user_input["vol"] * (0.01*user_input["percent"]) * 0.8|round }} g Ethanol konsumiert.</h5>
+
+<!-- mus noch gemacht werden -->
+<p>Wenn du einen Fehler bei der Eingabe gemacht hast, kannst du diesen löschen, wenn du in der Navigation auf Inputs klickst.</p>
+{% endblock %}
+</body>
+</html>

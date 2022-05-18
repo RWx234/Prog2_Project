@@ -2,11 +2,18 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Promille Brudi</title>
 </head>
 <body>
-    <h1>Hello World</h1>
+{% extends 'base.html' %}
 
-    <p>Welcome to my first Webpage!</p>
+{% block content %}
+    <h1>Willkommen beim Promille Brudi</h1>
+
+    <p>Hier findest du ein hilfreiches Tool, um dein Trinkverhalten zu analysieren.</p>
+    <br>
+    <p>Um Daten zu erfassen, klicke in der Navigation auf Daten erfassen, wenn du bereits Daten erfasst hast, <br>
+    kannst du diese unter Visualisierung anschauen.</p>
+{% endblock %}
 </body>
 </html>
