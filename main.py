@@ -3,7 +3,7 @@ from flask import request
 from Daten.Drinks import drinks
 from Daten.calculate import bak_berechnen
 from datetime import datetime
-from Daten.save_data import json_save
+from Daten.save_data import json_save, sort_data
 
 
 # Create a Flask Instance
@@ -29,7 +29,8 @@ def erfassung():
         zeit = request.form['time']
         datum = request.form['date']
         # datum und zeit in datetime format umwandeln
-        zeit_datum = datetime.strptime(str(datum+" "+zeit), "%Y-%m-%d %H:%M")
+        # zeit_datum = datetime.strptime(str(datum+" "+zeit), "%Y-%m-%d %H:%M")
+        zeit_datum = str(datum+" "+zeit)
         age = int(request.form['age'])
         weight = float(request.form['weight'])
         gender = request.form['gender']
@@ -49,6 +50,7 @@ def erfassung():
                         "bak": bak
                       }
         json_save(user_input, "Daten/drink_data.json")
+        sort_data("Daten/drink_data.json")
         return render_template("input_saved.html", user_input=user_input)
 
 

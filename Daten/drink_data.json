@@ -1,0 +1,35 @@
+[
+    {
+        "name": "Raffael",
+        "age": 24,
+        "gender": "male",
+        "weight": 80,
+        "zeitpunkt": "2022-05-20 08:00",
+        "drink": "Bier",
+        "percent": 5,
+        "vol": 330,
+        "bak": 0.239130434782608
+    },
+    {
+        "name": "Raffael",
+        "age": 24,
+        "gender": "male",
+        "weight": 80.0,
+        "zeitpunkt": "2022-05-20 23:00",
+        "drink": "Vodka",
+        "percent": 40.0,
+        "vol": 100,
+        "bak": 0.5797101449275363
+    },
+    {
+        "name": "Raffael",
+        "age": 24,
+        "gender": "male",
+        "weight": 80.0,
+        "zeitpunkt": "2022-05-19 20:00",
+        "drink": "Bier",
+        "percent": 5.0,
+        "vol": 1000,
+        "bak": 0.7246376811594204
+    }
+]
