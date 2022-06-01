@@ -21,3 +21,13 @@ def sort_data(filename):
         return file_data
     with open(filename, mode="w") as file:
         json.dump(file_data, file, indent=4)
+
+
+def get_data(filename):
+    try:
+        with open(filename, mode="r") as file:
+            file_data = json.load(file)
+            return file_data
+    except FileNotFoundError:
+        file_data = "False"
+        return file_data

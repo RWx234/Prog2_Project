@@ -22,7 +22,7 @@ Konsumierter Alkohol: {{ user_input["drink"] }}<br>
 Volumenprozent von {{ user_input["drink"] }}: {{ user_input["percent"] }}%<br>
 Konsumierte Menge {{ user_input["drink"] }}: {{ user_input["vol"] }} Milliliter</p>
 <br><br>
-<h5>Das ergibt eine Erhöhung der Blutalkoholkonzentration um {{ user_input["bak"]|round(2) }} Promille.<br>
+<h5>Das ergibt eine Erhöhung der Blutalkoholkonzentration zwischen {{ user_input["min_bak"]|round(2) }} und {{ user_input["max_bak"]|round(2) }} Promille.<br>
 Du hast mit diesem Getränk {{ user_input["vol"] * (0.01*user_input["percent"]) * 0.8|round }} g Ethanol konsumiert.</h5>
 
 <!-- mus noch gemacht werden -->

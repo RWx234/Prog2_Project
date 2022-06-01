@@ -8,9 +8,31 @@
 {% extends 'base.html' %}
 
 {% block content %}
-
-<h4>Deine bisherigen Inputs</h4>
-
+    <h4>Deine bisherigen Inputs</h4>
+    {% if file_data != "False" %}
+        {% for entry in file_data %}
+            <div class="card">
+                <div class="card-body">
+                    <h5 class="card-title">{{ entry["zeitpunkt"]}}</h5>
+                    <p class="card-text">Alter: {{ entry["age"] }}<br>
+                        Gewicht: {{ entry["weight"] }} kg<br>
+                        Geschlecht: {% if entry["gender"] == "male" %}Männlich
+                            {% elif entry["gender"] == "female" %} Weiblich
+                            {% else %}Anderes Geschlecht (Achtung: Da das Geschlecht in der BAK-Berechnung eine Rolle spielt, werden deine Resultate nicht gleich genau sein.
+                            {% endif %}<br>
+                        Konsumierter Alkohol: {{ entry["drink"] }}<br>
+                        Volumenprozent von {{ entry["drink"] }}: {{ entry["percent"] }}%<br>
+                        Konsumierte Menge {{ entry["drink"] }}: {{ entry["vol"] }} Milliliter</p></p>
+                    <!-- Funktioniert noch nicht -->
+                    <a href="#" class="btn btn-dark">Delete</a>
+                </div>
+            </div>
+            <br>
+        {% endfor %}
+    {% else %}
+        <br><p>Du hast bisher noch keine Getränke erfasst. Bevor hier etwas aufgelistet wird, musst du unter Daten erfassen etwas speichern.</p>
+        <a href="{{ url_for('erfassung') }}" class="btn btn-dark">Daten erfassen</a>
+    {% endif %}
 {% endblock %}
 </body>
 </html>

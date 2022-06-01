@@ -1,9 +1,10 @@
 from flask import Flask, render_template
 from flask import request
 from Daten.Drinks import drinks
-from Daten.calculate import bak_berechnen
+from Daten.calculate import max_bak_berechnen, min_bak_berechnen
 from datetime import datetime
-from Daten.save_data import json_save, sort_data
+from Daten.save_data import json_save, sort_data, get_data
+from Daten.visualisierung import pie_chart
 
 
 # Create a Flask Instance
@@ -37,7 +38,8 @@ def erfassung():
         drink = request.form['drink']
         percent = float(request.form['percent'])
         vol = int(request.form['vol'])
-        bak = bak_berechnen(vol, percent, weight, gender, age)
+        max_bak = max_bak_berechnen(vol, percent, weight, gender, age)
+        min_bak = min_bak_berechnen(vol, percent, weight, gender, age)
         user_input = {
                         "name": name,
                         "age": age,
@@ -47,7 +49,8 @@ def erfassung():
                         "drink": drink,
                         "percent": percent,
                         "vol": vol,
-                        "bak": bak
+                        "max_bak": max_bak,
+                        "min_bak": min_bak
                       }
         json_save(user_input, "Daten/drink_data.json")
         sort_data("Daten/drink_data.json")
@@ -57,7 +60,15 @@ def erfassung():
 
 @app.route('/visualisierung')
 def visualisierung():
-    return render_template("visualisierung.html")
+    data = get_data("Daten/drink_data.json")
+    pie = pie_chart(data, "drink", "vol")
+    return render_template("visualisierung.html", pie=pie)
+
+
+@app.route('/inputs')
+def inputs():
+    file_data = get_data("Daten/drink_data.json")
+    return render_template("inputs.html", file_data=file_data)
 
 
 # https://plotly.com/python/line-charts/ -> Line Chart
