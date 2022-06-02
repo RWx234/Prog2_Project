@@ -1,13 +1,14 @@
 import plotly.express as px
-
-line_data = {}
-pie_data = {}
-
-for entry in drink_data:
-    line_data[drink_data["zeitpunkt"]] = 0.5*(drink_data["max_bak"]+drink_data["min_bak"])
-    pie_data[drink_data["drink"]] = drink_data["vol"]
+from plotly.offline import plot
 
 
-def pie_chart(pie_data, nam, val)
-    fig = px.pie(pie_data, values=val, names=nam)
-    return fig
+def line_chart(line_data, x_data, y_data):
+    fig = px.line(x=x_data, y=y_data)
+    div_line = plot(fig, output_type="div")
+    return div_line
+
+
+def pie_chart(pie_data, value_data, key_data):
+    fig = px.pie(values=value_data, names=key_data)
+    div_pie = plot(fig, output_type="div")
+    return div_pie

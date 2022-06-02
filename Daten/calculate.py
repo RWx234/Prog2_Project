@@ -22,3 +22,4 @@ def min_bak_berechnen(vol_alk, p_alk, m_person, gender, age):
     # max resorptionsfaktor 30%
     min_bak = bak * 0.7
     return min_bak
+

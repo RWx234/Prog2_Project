@@ -3,8 +3,8 @@ from flask import request
 from Daten.Drinks import drinks
 from Daten.calculate import max_bak_berechnen, min_bak_berechnen
 from datetime import datetime
-from Daten.save_data import json_save, sort_data, get_data
-from Daten.visualisierung import pie_chart
+from Daten.save_data import json_save, sort_data, get_data, line_chart_data, pie_chart_data
+from Daten.visualisierung import line_chart, pie_chart
 
 
 # Create a Flask Instance
@@ -38,8 +38,9 @@ def erfassung():
         drink = request.form['drink']
         percent = float(request.form['percent'])
         vol = int(request.form['vol'])
-        max_bak = max_bak_berechnen(vol, percent, weight, gender, age)
-        min_bak = min_bak_berechnen(vol, percent, weight, gender, age)
+        max_bak = round(max_bak_berechnen(vol, percent, weight, gender, age), 4)
+        min_bak = round(min_bak_berechnen(vol, percent, weight, gender, age), 4)
+        av_bak = round((max_bak + min_bak) / 2, 4)
         user_input = {
                         "name": name,
                         "age": age,
@@ -50,7 +51,8 @@ def erfassung():
                         "percent": percent,
                         "vol": vol,
                         "max_bak": max_bak,
-                        "min_bak": min_bak
+                        "min_bak": min_bak,
+                        "av_bak": av_bak
                       }
         json_save(user_input, "Daten/drink_data.json")
         sort_data("Daten/drink_data.json")
@@ -60,15 +62,25 @@ def erfassung():
 
 @app.route('/visualisierung')
 def visualisierung():
-    data = get_data("Daten/drink_data.json")
-    pie = pie_chart(data, "drink", "vol")
-    return render_template("visualisierung.html", pie=pie)
+    # Line Chart
+    line_data = line_chart_data("Daten/drink_data.json")
+    x_data = list(line_data.keys())
+    y_data = list(line_data.values())
+    line_div = line_chart(line_data, x_data, y_data)
+    # Pie Chart
+    pie_data, pie_data_keys, pie_data_values = pie_chart_data("Daten/drink_data.json")
+    pie_div = pie_chart(pie_data, pie_data_values, pie_data_keys)
+    return render_template("visualisierung.html",
+                           x_data=x_data,
+                           y_data=y_data,
+                           line_div=line_div,
+                           pie_div=pie_div,
+                           pie_data=pie_data,
+                           pie_data_keys=pie_data_keys,
+                           pie_data_values=pie_data_values)
 
 
 @app.route('/inputs')
 def inputs():
     file_data = get_data("Daten/drink_data.json")
     return render_template("inputs.html", file_data=file_data)
-
-
-# https://plotly.com/python/line-charts/ -> Line Chart
