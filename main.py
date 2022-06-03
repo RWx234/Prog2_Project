@@ -2,7 +2,7 @@ from flask import Flask, render_template
 from flask import request
 from Daten.Drinks import drinks
 from Daten.calculate import max_bak_berechnen, min_bak_berechnen
-from datetime import datetime
+# from datetime import datetime
 from Daten.save_data import json_save, sort_data, get_data, line_chart_data, pie_chart_data
 from Daten.visualisierung import line_chart, pie_chart
 
@@ -66,10 +66,10 @@ def visualisierung():
     line_data = line_chart_data("Daten/drink_data.json")
     x_data = list(line_data.keys())
     y_data = list(line_data.values())
-    line_div = line_chart(line_data, x_data, y_data)
+    line_div = line_chart(x_data, y_data)
     # Pie Chart
     pie_data, pie_data_keys, pie_data_values = pie_chart_data("Daten/drink_data.json")
-    pie_div = pie_chart(pie_data, pie_data_values, pie_data_keys)
+    pie_div = pie_chart(pie_data_values, pie_data_keys)
     return render_template("visualisierung.html",
                            x_data=x_data,
                            y_data=y_data,
