@@ -29,8 +29,6 @@ def erfassung():
         name = request.form['name']
         zeit = request.form['time']
         datum = request.form['date']
-        # datum und zeit in datetime format umwandeln
-        # zeit_datum = datetime.strptime(str(datum+" "+zeit), "%Y-%m-%d %H:%M")
         zeit_datum = str(datum+" "+zeit)
         age = int(request.form['age'])
         weight = float(request.form['weight'])
@@ -64,8 +62,11 @@ def erfassung():
 def visualisierung():
     # Line Chart
     line_data = line_chart_data("Daten/drink_data.json")
-    x_data = list(line_data.keys())
-    y_data = list(line_data.values())
+    line_data_av = line_data[0]
+    line_data_min = line_data[1]
+    line_data_max = line_data[2]
+    x_data = list(line_data_av.keys())
+    y_data = [list(line_data_max.values()), list(line_data_av.values()), list(line_data_min.values())]
     line_div = line_chart(x_data, y_data)
     # Pie Chart
     pie_data, pie_data_keys, pie_data_values = pie_chart_data("Daten/drink_data.json")
