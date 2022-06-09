@@ -80,25 +80,40 @@ def line_chart_data(filename):
             line_data_av = {}
             line_data_min = {}
             line_data_max = {}
+
+            min_null = round(bak_max_values[-1] / (0.1/60), 0)
+            for i in range(1, int(min_null + 1), 1):
+                key_range.append(key_range[-1] + step)
+                next_value_max = bak_max_values[-1] - (0.1/60)
+                next_value_av = bak_av_values[-1] - 0.0025
+                next_value_min = bak_min_values[-1] - (0.2/60)
+                bak_max_values.append(next_value_max)
+                if next_value_av > 0:
+                    bak_av_values.append(next_value_av)
+                else:
+                    bak_av_values.append(0)
+                if next_value_min > 0:
+                    bak_min_values.append(next_value_min)
+                else:
+                    bak_min_values.append(0)
+
             for key in key_range:
                 for value in bak_av_values:
-                    line_data_av[key] = value
+                    value_r = round(value, 4)
+                    line_data_av[key] = value_r
                     bak_av_values.remove(value)
                     break
                 for value in bak_min_values:
-                    line_data_min[key] = value
+                    value_r = round(value, 4)
+                    line_data_min[key] = value_r
                     bak_min_values.remove(value)
                     break
                 for value in bak_max_values:
-                    line_data_max[key] = value
+                    value_r = round(value, 4)
+                    line_data_max[key] = value_r
                     bak_max_values.remove(value)
                     break
             return line_data_av, line_data_min, line_data_max
-        # calculate until 0.0 BAK
-        last_bak = line_data_av[key_range[-1]]
-        bak_null = round(last_bak / 0.0025, 0)
-        # for minute in bak_null:
-
     except FileNotFoundError:
         file_data = "False"
         return file_data

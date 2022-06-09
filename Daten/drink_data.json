@@ -1,0 +1,41 @@
+[
+    {
+        "name": "Raffael",
+        "age": 24,
+        "gender": "male",
+        "weight": 80.0,
+        "zeitpunkt": "2022-06-09 20:00",
+        "drink": "Bier",
+        "percent": 5.0,
+        "vol": 500,
+        "max_bak": 0.3309,
+        "min_bak": 0.25,
+        "av_bak": 0.2904
+    },
+    {
+        "name": "Raffael",
+        "age": 24,
+        "gender": "male",
+        "weight": 80.0,
+        "zeitpunkt": "2022-06-09 20:15",
+        "drink": "Vodka",
+        "percent": 40.0,
+        "vol": 80,
+        "max_bak": 0.4235,
+        "min_bak": 0.32,
+        "av_bak": 0.3718
+    },
+    {
+        "name": "Raffael",
+        "age": 24,
+        "gender": "male",
+        "weight": 80.0,
+        "zeitpunkt": "2022-06-09 20:30",
+        "drink": "Rotwein",
+        "percent": 15.0,
+        "vol": 250,
+        "max_bak": 0.4963,
+        "min_bak": 0.375,
+        "av_bak": 0.4356
+    }
+]
