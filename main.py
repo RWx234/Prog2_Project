@@ -4,7 +4,7 @@ from Daten.Drinks import drinks
 from Daten.calculate import max_bak_berechnen, min_bak_berechnen
 # from datetime import datetime
 from Daten.save_data import json_save, sort_data, get_data, line_chart_data, pie_chart_data
-from Daten.visualisierung import line_chart, pie_chart
+from Daten.visualisierung import line_chart, pie_chart, pie_bak
 
 
 # Create a Flask Instance
@@ -68,20 +68,26 @@ def visualisierung():
     x_data = list(line_data_av.keys())
     y_data = [list(line_data_max.values()), list(line_data_av.values()), list(line_data_min.values())]
     line_div = line_chart(x_data, y_data)
-    # Pie Chart
-    pie_data, pie_data_keys, pie_data_values = pie_chart_data("Daten/drink_data.json")
-    pie_div = pie_chart(pie_data_values, pie_data_keys)
+    # Pie Chart mL
+    pie_data_ml, pie_data_keys, pie_data_ml_values, pie_data_bak, pie_data_bak_values = pie_chart_data("Daten/drink_data.json")
+    pie_div_ml = pie_chart(pie_data_ml_values, pie_data_keys)
+    # Pie Chart BAK
+    pie_div_bak = pie_bak(pie_data_bak_values, pie_data_keys)
     return render_template("visualisierung.html",
                            x_data=x_data,
                            y_data=y_data,
                            line_div=line_div,
-                           pie_div=pie_div,
-                           pie_data=pie_data,
+                           pie_div_ml=pie_div_ml,
+                           pie_data=pie_data_ml,
                            pie_data_keys=pie_data_keys,
-                           pie_data_values=pie_data_values)
+                           pie_data_values=pie_data_ml_values,
+                           pie_div_bak=pie_div_bak)
 
 
 @app.route('/inputs')
 def inputs():
     file_data = get_data("Daten/drink_data.json")
     return render_template("inputs.html", file_data=file_data)
+
+#   @app.route('/deleted', methods=["POST"])
+# def delete():

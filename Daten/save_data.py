@@ -123,18 +123,31 @@ def pie_chart_data(filename):
     try:
         with open(filename, mode="r") as file:
             file_data = json.load(file)
-            pie_data = {}
+            pie_data_ml = {}
+            pie_data_bak = {}
             for entry in file_data:
-                if entry["drink"] in pie_data.keys():
-                    old_value = pie_data[entry["drink"]]
-                    pie_data[entry["drink"]] = old_value + entry["vol"]
+                if entry["drink"] in pie_data_ml.keys():
+                    old_value = pie_data_ml[entry["drink"]]
+                    pie_data_ml[entry["drink"]] = old_value + entry["vol"]
                 else:
-                    pie_data[entry["drink"]] = entry["vol"]
-        pie_data_values = list(pie_data.values())
-        pie_data_keys = list(pie_data.keys())
-        return pie_data, pie_data_keys, pie_data_values
+                    pie_data_ml[entry["drink"]] = entry["vol"]
+                if entry["drink"] in pie_data_bak.keys():
+                    old_value = pie_data_bak[entry["drink"]]
+                    pie_data_bak[entry["drink"]] = old_value + entry["av_bak"]
+                else:
+                    pie_data_bak[entry["drink"]] = entry["av_bak"]
+        pie_data_ml_values = list(pie_data_ml.values())
+        pie_data_bak_values = list(pie_data_bak.values())
+        pie_data_keys = list(pie_data_ml.keys())
+        return pie_data_ml, pie_data_keys, pie_data_ml_values, pie_data_bak, pie_data_bak_values
     except FileNotFoundError:
         pie_data_keys = "False"
-        pie_data_values = "False"
-        pie_data = "False"
-        return pie_data, pie_data_keys, pie_data_values
+        pie_data_ml_values = "False"
+        pie_data_ml = "False"
+        return pie_data_ml, pie_data_keys, pie_data_ml_values
+
+
+# def delete_entry(timestamp, filename):
+    # with open(filename, mode"r") as file:
+        # file_data = json.load(file)
+        
