@@ -3,6 +3,7 @@ import datetime
 import os
 
 
+# Neuen Input in Json abspeichern
 def json_save(data, filename):
     try:
         with open(filename, mode="r") as file:
@@ -15,15 +16,7 @@ def json_save(data, filename):
         json.dump(file_data, file, indent=4)
 
 
-def sort_data(filename):
-    with open(filename, mode="r") as file:
-        file_data = json.load(file)
-        file_data = file_data.sort(key=lambda x: x['zeitpunkt'])
-        return file_data
-    with open(filename, mode="w") as file:
-        json.dump(file_data, file, indent=4)
-
-
+# Gespeicherte Inputs aus Json importieren (als List of Dicts)
 def get_data(filename):
     try:
         with open(filename, mode="r") as file:
@@ -34,6 +27,7 @@ def get_data(filename):
         return file_data
 
 
+# Daten für Line Chart aufbereiten
 def line_chart_data(filename):
     try:
         with open(filename, mode="r") as file:
@@ -53,6 +47,7 @@ def line_chart_data(filename):
             max_time = datetime.datetime.strptime(end, "%Y-%m-%d %H:%M")
             step = datetime.timedelta(minutes=1)
             key_range = []
+            # für jede Minute zwischen Start und Ende einen Key hinzufügen
             while min_time <= max_time:
                 key_range.append(min_time)
                 min_time += step
@@ -61,10 +56,12 @@ def line_chart_data(filename):
             bak_max_values = []
             for key in key_range:
                 if key.strftime("%Y-%m-%d %H:%M") in input_keys:
+                    # falls noch kein Wert -> Frühster Input als erster Wert
                     if len(bak_av_values) == 0:
                         bak_av_values.append(line_data_av[key.strftime("%Y-%m-%d %H:%M")])
                         bak_min_values.append(line_data_min[key.strftime("%Y-%m-%d %H:%M")])
                         bak_max_values.append(line_data_max[key.strftime("%Y-%m-%d %H:%M")])
+                    # Letzten Wert aus Liste als erster Summand + neuer Input - Abbau pro Minute
                     else:
                         bak_av_values.append(bak_av_values[-1] +
                                              line_data_av[key.strftime("%Y-%m-%d %H:%M")] - 0.0025)
@@ -73,6 +70,7 @@ def line_chart_data(filename):
                         bak_max_values.append(bak_max_values[-1] +
                                              line_data_max[key.strftime("%Y-%m-%d %H:%M")] - (0.1 / 60))
                         # 0.025 = Average BAK-Reduction per Minute (0.1-0.2 pro Stunde)
+                # Letzter Wert - Abbau pro Minute falls noch über 0
                 else:
                     if bak_av_values[-1] < 0.0025:
                         bak_av_values.append(0)
@@ -90,6 +88,7 @@ def line_chart_data(filename):
             line_data_min = {}
             line_data_max = {}
 
+# Nach letzten Input muss bis BAK 0.0 weiter gerechnet werden
             min_null = round(bak_max_values[-1] / (0.1/60), 0)
             for i in range(1, int(min_null + 1), 1):
                 key_range.append(key_range[-1] + step)
@@ -105,7 +104,7 @@ def line_chart_data(filename):
                     bak_min_values.append(next_value_min)
                 else:
                     bak_min_values.append(0)
-
+# keys mit values matchen
             for key in key_range:
                 for value in bak_av_values:
                     value_r = round(value, 4)
@@ -128,6 +127,7 @@ def line_chart_data(filename):
         return file_data
 
 
+# Gespeicherte Daten für Pie Chart aufbereiten
 def pie_chart_data(filename):
     try:
         with open(filename, mode="r") as file:
@@ -135,6 +135,7 @@ def pie_chart_data(filename):
             pie_data_ml = {}
             pie_data_bak = {}
             for entry in file_data:
+                # Falls für Getränk bereits ein Wert gespeichert, diesen addieren
                 if entry["drink"] in pie_data_ml.keys():
                     old_value = pie_data_ml[entry["drink"]]
                     pie_data_ml[entry["drink"]] = old_value + entry["vol"]
@@ -148,14 +149,14 @@ def pie_chart_data(filename):
         pie_data_ml_values = list(pie_data_ml.values())
         pie_data_bak_values = list(pie_data_bak.values())
         pie_data_keys = list(pie_data_ml.keys())
-        return pie_data_ml, pie_data_keys, pie_data_ml_values, pie_data_bak, pie_data_bak_values
     except FileNotFoundError:
         pie_data_keys = "False"
         pie_data_ml_values = "False"
-        pie_data_ml = "False"
-        return pie_data_ml, pie_data_keys, pie_data_ml_values
+        pie_data_bak_values = "False"
+    return pie_data_keys, pie_data_ml_values, pie_data_bak_values
 
 
+# Funktion um einzelnen Eintrag aus json zu löschen
 def delete(timestamp, filename):
     with open(filename, mode="r") as file:
         file_data = json.load(file)

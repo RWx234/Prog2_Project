@@ -25,10 +25,9 @@ Konsumierte Menge {{ user_input["drink"] }}: {{ user_input["vol"] }} Milliliter<
 <h5>Das ergibt eine Erhöhung der Blutalkoholkonzentration zwischen {{ user_input["min_bak"]|round(2) }} und {{ user_input["max_bak"]|round(2) }} Promille.<br>
 Du hast mit diesem Getränk {{ user_input["vol"] * (0.01*user_input["percent"]) * 0.8|round }} g Ethanol konsumiert.</h5>
 
-<!-- mus noch gemacht werden -->
+
 <p>Wenn du einen Fehler bei der Eingabe gemacht hast, kannst du diesen löschen, wenn du in der Navigation auf Inputs klickst.</p>
-<!-- uncomment to check saved dict
-{{ user_input }} -->
+
 {% endblock %}
 </body>
 </html>

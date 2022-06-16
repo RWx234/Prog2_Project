@@ -50,7 +50,6 @@
                 {% for drink in drink_list %}
                     <option value="{{ drink }}">{{ drink }}</option>
                 {% endfor %}
-            <!-- if Anderes -> Textinput-Feld -->
         </select>
         <br>
         <!-- Prozentinput -->
@@ -61,11 +60,11 @@
         </div>
         <!-- Volinput -->
         <div class="mb-3">
-            <label class="form-label" for="vol">Wie viel alkoholhaltige Flüssigkeit enthält dein Getränk?</label>
+            <label class="form-label" for="vol">Wie gross ist dein Getränk (in mL)?</label>
             <input class="form-control" type="number" name="vol" id="vol" min="0"
                    placeholder="Bitte in mL angeben - Bierflasche enthält 330 mL" required>
         </div>
-        <button type="Submit" class="btn btn-dark">Schigge</button>
+        <button type="Submit" class="btn btn-dark">Speichern</button>
     </form>
     <br>
 </div>
