@@ -24,7 +24,10 @@
                         Volumenprozent von {{ entry["drink"] }}: {{ entry["percent"] }}%<br>
                         Konsumierte Menge {{ entry["drink"] }}: {{ entry["vol"] }} Milliliter</p></p>
                     <!-- Funktioniert noch nicht -->
-                    <a href="#" class="btn btn-dark">Delete</a>
+                    <form action="{{ url_for('delete_entry') }}" method="post">
+                        <input type="hidden" name="timestamp" value="{{ entry["zeitpunkt"] }}">
+                        <button type="Submit" class="btn btn-dark">Delete</button>
+                    </form>
                 </div>
             </div>
             <br>

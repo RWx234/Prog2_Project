@@ -1,5 +1,6 @@
 import json
 import datetime
+import os
 
 
 def json_save(data, filename):
@@ -18,7 +19,6 @@ def sort_data(filename):
     with open(filename, mode="r") as file:
         file_data = json.load(file)
         file_data = file_data.sort(key=lambda x: x['zeitpunkt'])
-        print(file_data)
         return file_data
     with open(filename, mode="w") as file:
         json.dump(file_data, file, indent=4)
@@ -74,9 +74,18 @@ def line_chart_data(filename):
                                              line_data_max[key.strftime("%Y-%m-%d %H:%M")] - (0.1 / 60))
                         # 0.025 = Average BAK-Reduction per Minute (0.1-0.2 pro Stunde)
                 else:
-                    bak_av_values.append(bak_av_values[-1] - 0.0025)
-                    bak_min_values.append(bak_min_values[-1] - (0.2 / 60))
-                    bak_max_values.append(bak_max_values[-1] - (0.1 / 60))
+                    if bak_av_values[-1] < 0.0025:
+                        bak_av_values.append(0)
+                    else:
+                        bak_av_values.append(bak_av_values[-1] - 0.0025)
+                    if bak_min_values[-1] < (0.2 / 60):
+                        bak_min_values.append(0)
+                    else:
+                        bak_min_values.append(bak_min_values[-1] - (0.2 / 60))
+                    if bak_max_values[-1] < (0.1 / 60):
+                        bak_max_values.append(0)
+                    else:
+                        bak_max_values.append(bak_max_values[-1] - (0.1 / 60))
             line_data_av = {}
             line_data_min = {}
             line_data_max = {}
@@ -147,7 +156,16 @@ def pie_chart_data(filename):
         return pie_data_ml, pie_data_keys, pie_data_ml_values
 
 
-# def delete_entry(timestamp, filename):
-    # with open(filename, mode"r") as file:
-        # file_data = json.load(file)
-        
+def delete(timestamp, filename):
+    with open(filename, mode="r") as file:
+        file_data = json.load(file)
+        counter = 0
+        for entry in file_data:
+            if timestamp == entry["zeitpunkt"]:
+                del file_data[counter]
+            counter = counter + 1
+    if len(file_data) == 0:
+        os.remove(filename)
+    else:
+        with open(filename, mode="w") as file:
+            json.dump(file_data, file, indent=4)
