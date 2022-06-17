@@ -41,7 +41,7 @@ Deine Inputs werden auf deinem Gerät gespeichert, wenn du also an einem anderen
 Möchtest du einen neuen Tag erfassen, musst du zuerst alle deine bisherigen Inputs löschen.
 <hr>
 <h2>Code-Architektur</h2>
-![Flowchart BAK-Rechner](templates/Flowchart_BAK_Rechner.png)
+![Flowchart BAK-Rechner](templates/Flowdiagramm_BAK_Rechner.png)
 <hr>
 <h2>(Noch) fehlende Funktionen</h2>
 Der BAK Rechner könnte auch noch ein bisschen ausgebaut werden. Hier sind einige Funktionen, die praktisch wären, bisher aber noch nicht integriert wurden.
